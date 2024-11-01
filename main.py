@@ -11,9 +11,10 @@ from weapon import *
 from sound import *
 from pathfinding import *
 
+import time
 
 class Game:
-    def __init__(self):
+    def __init__(self, logfile):
         pg.init()
         pg.mouse.set_visible(False)
         self.screen = pg.display.set_mode(RES)
@@ -22,6 +23,7 @@ class Game:
         self.delta_time = 1
         self.global_trigger = False
         self.global_event = pg.USEREVENT + 0
+        self.logfile = logfile
         pg.time.set_timer(self.global_event, 40)
         self.new_game()
 
@@ -29,8 +31,8 @@ class Game:
         self.map = Map(self)
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
-        self.raycasting = RayCasting(self)
         self.object_handler = ObjectHandler(self)
+        self.raycasting = RayCasting(self, self.object_handler)
         self.weapon = Weapon(self)
         self.sound = Sound(self)
         self.pathfinding = PathFinding(self)
@@ -39,6 +41,11 @@ class Game:
     def update(self):
         self.player.update()
         self.raycasting.update()
+        self.logfile.write(str(self.raycasting.ray_casting_for_perception_res) + "\n")
+        self.logfile.write(str(self.player.health) + "\n")
+        self.logfile.write(str(self.player.rel) + "\n")
+        keys = pg.key.get_pressed()
+        self.logfile.write(f"{keys[pg.K_w]}, {keys[pg.K_a]}, {keys[pg.K_s]}, {keys[pg.K_d]}\n")
         self.object_handler.update()
         self.weapon.update()
         pg.display.flip()
@@ -70,5 +77,6 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game()
-    game.run()
+    with open(str(time.time()), 'w', encoding='utf8') as f:
+        game = Game(f)
+        game.run()
