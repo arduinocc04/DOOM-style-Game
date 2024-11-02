@@ -13,7 +13,7 @@ class SpriteObject:
         try:
             self.image = pg.image.load(path).convert_alpha()
         except FileNotFoundError:
-            self.image = pg.image.load("Doom-style-Game/" + path).convert_alpha()
+            self.image = pg.image.load("DOOM-style-Game/" + path).convert_alpha()
         self.IMAGE_WIDTH = self.image.get_width()
         self.IMAGE_HALF_WIDTH = self.image.get_width() // 2
         self.IMAGE_RATIO = self.IMAGE_WIDTH / self.image.get_height()
