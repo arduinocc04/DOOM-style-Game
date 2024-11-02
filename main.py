@@ -53,6 +53,18 @@ class Game:
         self.delta_time = self.clock.tick(FPS)
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
 
+    def update_auto(self, move_keys, mouse_rel, shot):
+        self.player.movement_auto(move_keys)
+        self.player.mouse_control_auto(mouse_rel)
+        self.player.single_fire_event_auto(shot)
+        self.raycasting.update()
+        self.object_handler.update()
+        self.weapon.update()
+        pg.display.flip()
+        self.delta_time = self.clock.tick(FPS)
+        pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
+        return (self.raycasting.ray_casting_for_perception_res, self.player.health)
+
     def draw(self):
         # self.screen.fill('black')
         self.object_renderer.draw()

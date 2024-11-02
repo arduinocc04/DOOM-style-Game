@@ -110,6 +110,57 @@ class Player:
         self.rel = max(-MOUSE_MAX_REL, min(MOUSE_MAX_REL, self.rel))
         self.angle += self.rel * MOUSE_SENSITIVITY * self.game.delta_time
 
+    def single_fire_event_auto(self, shot:bool):
+        if shot:
+            if not self.shot and not self.game.weapon.reloading:
+                self.game.sound.shotgun.play()
+                self.shot = True
+                self.game.weapon.reloading = True
+
+    def mouse_control_auto(self, rel):
+        self.rel = rel
+        self.angle += self.rel * MOUSE_SENSITIVITY * self.game.delta_time
+
+    def movement_auto(self, key_in_bit:int):
+        sin_a = math.sin(self.angle)
+        cos_a = math.cos(self.angle)
+        dx, dy = 0, 0
+        speed = PLAYER_SPEED * self.game.delta_time
+        speed_sin = speed * sin_a
+        speed_cos = speed * cos_a
+
+        keys = pg.key.get_pressed()
+        num_key_pressed = -1
+        if key_in_bit & 8:
+            num_key_pressed += 1
+            dx += speed_cos
+            dy += speed_sin
+        if key_in_bit & 2:
+            num_key_pressed += 1
+            dx += -speed_cos
+            dy += -speed_sin
+        if key_in_bit & 4:
+            num_key_pressed += 1
+            dx += speed_sin
+            dy += -speed_cos
+        if key_in_bit & 1:
+            num_key_pressed += 1
+            dx += -speed_sin
+            dy += speed_cos
+
+        # diag move correction
+        if num_key_pressed:
+            dx *= self.diag_move_corr
+            dy *= self.diag_move_corr
+
+        self.check_wall_collision(dx, dy)
+
+        # if keys[pg.K_LEFT]:
+        #     self.angle -= PLAYER_ROT_SPEED * self.game.delta_time
+        # if keys[pg.K_RIGHT]:
+        #     self.angle += PLAYER_ROT_SPEED * self.game.delta_time
+        self.angle %= math.tau
+
     def update(self):
         self.movement()
         self.mouse_control()
