@@ -45,7 +45,7 @@ class Game:
         self.logfile.write(str(self.player.health) + "\n")
         self.logfile.write(str(self.player.rel) + "\n")
         keys = pg.key.get_pressed()
-        self.logfile.write(f"{keys[pg.K_w]}, {keys[pg.K_a]}, {keys[pg.K_s]}, {keys[pg.K_d]}\n")
+        self.logfile.write(str(8*keys[pg.K_w] + 4*keys[pg.K_a] + 2*keys[pg.K_s] + keys[pg.K_d]) + "\n")
         self.object_handler.update()
         self.weapon.update()
         pg.display.flip()
