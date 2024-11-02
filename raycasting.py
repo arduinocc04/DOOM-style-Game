@@ -110,7 +110,9 @@ class RayCasting:
         npc_poss = set(npc.map_pos for npc in self.object_handler.npc_list)
 
         ray_angle = self.game.player.angle - HALF_FOV + 0.0001
-        for ray in range(NUM_RAYS):
+        NUMM_RAYS = 20
+        DELTAA_ANGLE = 2*HALF_FOV/NUMM_RAYS
+        for ray in range(NUMM_RAYS):
             sin_a = math.sin(ray_angle)
             cos_a = math.cos(ray_angle)
 
@@ -169,7 +171,7 @@ class RayCasting:
             # ray casting result
             self.ray_casting_for_perception_res.append((round(depth, 2), object_type))
 
-            ray_angle += DELTA_ANGLE
+            ray_angle += DELTAA_ANGLE
 
     def update(self):
         self.ray_cast()
