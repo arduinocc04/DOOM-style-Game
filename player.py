@@ -129,7 +129,6 @@ class Player:
         speed_sin = speed * sin_a
         speed_cos = speed * cos_a
 
-        keys = pg.key.get_pressed()
         num_key_pressed = -1
         if key_in_bit & 8:
             num_key_pressed += 1
