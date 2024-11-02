@@ -10,7 +10,10 @@ class SpriteObject:
         self.game = game
         self.player = game.player
         self.x, self.y = pos
-        self.image = pg.image.load(path).convert_alpha()
+        try:
+            self.image = pg.image.load(path).convert_alpha()
+        except FileNotFoundError:
+            self.image = pg.image.load("Doom-style-Game/" + path).convert_alpha()
         self.IMAGE_WIDTH = self.image.get_width()
         self.IMAGE_HALF_WIDTH = self.image.get_width() // 2
         self.IMAGE_RATIO = self.IMAGE_WIDTH / self.image.get_height()
@@ -59,7 +62,10 @@ class AnimatedSprite(SpriteObject):
         super().__init__(game, path, pos, scale, shift)
         self.animation_time = animation_time
         self.path = path.rsplit('/', 1)[0]
-        self.images = self.get_images(self.path)
+        try:
+            self.images = self.get_images(self.path)
+        except FileNotFoundError:
+            self.images = self.get_images('DOOM-style-Game/' + self.path)
         self.animation_time_prev = pg.time.get_ticks()
         self.animation_trigger = False
 
