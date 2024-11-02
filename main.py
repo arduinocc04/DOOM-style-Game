@@ -57,6 +57,7 @@ class Game:
         self.player.movement_auto(move_keys)
         self.player.mouse_control_auto(mouse_rel)
         self.player.single_fire_event_auto(shot)
+        self.player.recover_health()
         self.raycasting.update()
         self.object_handler.update()
         self.weapon.update()
