@@ -4,8 +4,9 @@ import math
 
 
 class Player:
-    def __init__(self, game):
+    def __init__(self, game, ray):
         self.game = game
+        self.raycast = ray
         self.x, self.y = PLAYER_POS
         self.angle = PLAYER_ANGLE
         self.shot = False
@@ -90,10 +91,15 @@ class Player:
         return (x, y) not in self.game.map.world_map
 
     def check_wall_collision(self, dx, dy):
+        print("wall collision called")
         scale = PLAYER_SIZE_SCALE / self.game.delta_time
+        if self.raycast.ray_cast_front_wall() < abs(dx) + abs(dy):
+            return
         if self.check_wall(int(self.x + dx * scale), int(self.y)):
+            print("x")
             self.x += dx
         if self.check_wall(int(self.x), int(self.y + dy * scale)):
+            print("y")
             self.y += dy
 
     def draw(self):

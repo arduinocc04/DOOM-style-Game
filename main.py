@@ -29,10 +29,11 @@ class Game:
 
     def new_game(self):
         self.map = Map(self)
-        self.player = Player(self)
-        self.object_renderer = ObjectRenderer(self)
+        self.player = Player(self, None)
         self.object_handler = ObjectHandler(self)
+        self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self, self.object_handler)
+        self.player.raycast = self.raycasting
         self.weapon = Weapon(self)
         self.sound = Sound(self)
         self.pathfinding = PathFinding(self)
@@ -50,7 +51,7 @@ class Game:
         self.object_handler.update()
         self.weapon.update()
         pg.display.flip()
-        self.delta_time = self.clock.tick(FPS)
+        self.delta_time = min(16, self.clock.tick(FPS))
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
 
     def update_auto(self, move_keys, mouse_rel, shot):
