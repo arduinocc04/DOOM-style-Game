@@ -69,10 +69,19 @@ class ObjectRenderer:
         return pg.transform.scale(texture, res)
 
     def load_wall_textures(self):
-        return {
-            1: self.get_texture('resources/textures/1.png'),
-            2: self.get_texture('resources/textures/2.png'),
-            3: self.get_texture('resources/textures/3.png'),
-            4: self.get_texture('resources/textures/4.png'),
-            5: self.get_texture('resources/textures/5.png'),
-        }
+        try:
+            return {
+                1: self.get_texture('resources/textures/1.png'),
+                2: self.get_texture('resources/textures/2.png'),
+                3: self.get_texture('resources/textures/3.png'),
+                4: self.get_texture('resources/textures/4.png'),
+                5: self.get_texture('resources/textures/5.png'),
+            }
+        except FileNotFoundError:
+            return {
+                1: self.get_texture('DOOM-style-Game/resources/textures/1.png'),
+                2: self.get_texture('DOOM-style-Game/resources/textures/2.png'),
+                3: self.get_texture('DOOM-style-Game/resources/textures/3.png'),
+                4: self.get_texture('DOOM-style-Game/resources/textures/4.png'),
+                5: self.get_texture('DOOM-style-Game/resources/textures/5.png'),
+            }
