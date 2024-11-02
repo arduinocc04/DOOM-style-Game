@@ -94,7 +94,7 @@ class AnimatedSprite(SpriteObject):
                     img = pg.image.load(path + '/' + file_name).convert_alpha()
                     images.append(img)
         except FileNotFoundError:
-            path = "DOOM-style-Game" + path
+            path = "DOOM-style-Game/" + path
             for file_name in os.listdir(path):
                 if os.path.isfile(os.path.join(path, file_name)):
                     img = pg.image.load(path + '/' + file_name).convert_alpha()
