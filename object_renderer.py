@@ -8,15 +8,28 @@ class ObjectRenderer:
         self.game = game
         self.screen = game.screen
         self.wall_textures = self.load_wall_textures()
-        self.sky_image = self.get_texture(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'resources/textures/sky.png'), (WIDTH, HALF_HEIGHT))
-        self.sky_offset = 0
-        self.blood_screen = self.get_texture(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'resources/textures/blood_screen.png'), RES)
-        self.digit_size = 90
-        self.digit_images = [self.get_texture(os.path.join(os.path.dirname(os.path.realpath(__file__)), f'resources/textures/digits/{i}.png'), [self.digit_size] * 2)
-                             for i in range(11)]
-        self.digits = dict(zip(map(str, range(11)), self.digit_images))
-        self.game_over_image = self.get_texture(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'resources/textures/game_over.png'), RES)
-        self.win_image = self.get_texture(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'resources/textures/win.png'), RES)
+        try:
+            self.sky_image = self.get_texture('resources/textures/sky.png', (WIDTH, HALF_HEIGHT))
+            self.sky_offset = 0
+            self.blood_screen = self.get_texture('resources/textures/blood_screen.png', RES)
+            self.digit_size = 90
+            self.digit_images = [self.get_texture(f'resources/textures/digits/{i}.png', [self.digit_size] * 2)
+                                 for i in range(11)]
+            self.digits = dict(zip(map(str, range(11)), self.digit_images))
+            self.game_over_image = self.get_texture('resources/textures/game_over.png', RES)
+            self.win_image = self.get_texture('resources/textures/win.png', RES)
+
+        except FileNotFoundError:
+            self.sky_image = self.get_texture('DOOM-style-Game/resources/textures/sky.png', (WIDTH, HALF_HEIGHT))
+            self.sky_offset = 0
+            self.blood_screen = self.get_texture('DOOM-style-Game/resources/textures/blood_screen.png', RES)
+            self.digit_size = 90
+            self.digit_images = [self.get_texture(f'DOOM-style-Game/resources/textures/digits/{i}.png', [self.digit_size] * 2)
+                                 for i in range(11)]
+            self.digits = dict(zip(map(str, range(11)), self.digit_images))
+            self.game_over_image = self.get_texture('DOOM-style-Game/resources/textures/game_over.png', RES)
+            self.win_image = self.get_texture('DOOM-style-Game/resources/textures/win.png', RES)
+
 
     def draw(self):
         self.draw_background()
